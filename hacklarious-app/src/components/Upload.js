@@ -5,7 +5,7 @@ import styles from '../styles/Upload.module.css';
 export default () => {
   return(
     <div className={styles.uploadDiv}>
-      <div className={`card rounded-lg ${styles.trial} container`}>
+      <div className={`card rounded-lg ${styles.trial} container shadow`}>
       </div>
     </div>
   )

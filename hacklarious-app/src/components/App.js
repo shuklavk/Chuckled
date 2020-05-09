@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Upload from './Upload';
+import styles from '../styles/App.module.css'
+import logo from '../styles/logo.png'
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -11,9 +13,12 @@ function App() {
   })
   return (
     <div>
-    <h1>Logo</h1>
+    <img src={logo} alt="logo" style={{width:"400px", height:"auto", margin:"20px 100px"}}/>
     <Upload />
-    <h1>Buttons</h1>
+    <div className={styles.buttonDiv}>
+    <button type="button" className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}>Upload a Photo</button>
+    <button type="button" className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}>Take a Photo</button>
+    </div>
     </div>
   );
 }

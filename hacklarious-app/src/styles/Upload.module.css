@@ -1,6 +1,6 @@
 
 .uploadDiv{
-  background-image: url("./testImg.jpg");
+  background-image: url("./UploadBackground.png");
 }
 
 .trial{
@@ -14,5 +14,6 @@
   margin-bottom: 5%;
   margin-left: 25%;
   margin-right: 25%;
+  border-radius: 1.83rem!important;
 
 }
