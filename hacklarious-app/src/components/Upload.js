@@ -1,9 +1,12 @@
 import React from 'react';
+import styles from '../styles/Upload.module.css';
+// import {Card }
 
 export default () => {
   return(
-    <div>
-      <h1> Upload Component</h1>
+    <div className={styles.uploadDiv}>
+      <div className={`card rounded-lg ${styles.trial} container`}>
+      </div>
     </div>
   )
 }

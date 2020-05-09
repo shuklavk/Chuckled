@@ -1,0 +1,18 @@
+
+.uploadDiv{
+  background-image: url("./testImg.jpg");
+}
+
+.trial{
+  color:red;
+  text-align: center;
+  width: 50%;
+  height: 400px;
+  display: inline-block;
+  /* margin: 5%, 25%; */
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 25%;
+  margin-right: 25%;
+
+}
