@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Upload from './Upload';
 import styles from '../styles/App.module.css';
 import logo from '../styles/logo.png';
 import axios from 'axios'
 
 function App() {
+  const video = document.getElementById('video');
   const [currentTime, setCurrentTime] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   //Post request Link goes here ---------------------------
@@ -25,40 +26,83 @@ function App() {
     const fd = new FormData();
     fd.append('image', selectedFile, selectedFile.name);
     axios.post(POST_IMAGE_URL, fd)
-    .then(resp => console.log(resp))
-    .catch(err => {
-      console.log("Error with Uploading:", err);
-    })
+      .then(resp => console.log("Response from Uploaded Image: ", resp))
+      .catch(err => {
+        console.log("Error with Uploading:", err);
+      })
   }
 
   const fileInput = useRef(null);
+  const canvasRef = useRef(null);
+  const videoInput = useRef(null);
+
+  const dataURItoBlob = (dataURI) => {
+    // convert base64/URLEncoded data component to raw binary data held in a string
+    var byteString;
+    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        byteString = atob(dataURI.split(',')[1]);
+    else
+        byteString = unescape(dataURI.split(',')[1]);
+
+    // separate out the mime component
+    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
+
+    // write the bytes of the string to a typed array
+    var ia = new Uint8Array(byteString.length);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ia], {type:mimeString});
+}
+  
+  const snapshotUploadHandler = () => {
+    let context = canvasRef.current.getContext('2d');
+    // console.log(videoInput)
+    context.drawImage(videoInput.current, 0, 0, 688, 398);
+    const dataURI = canvasRef.current.toDataURL('image/jpeg');
+    var blob = dataURItoBlob(dataURI);
+    var fd = new FormData(document.forms[0]);
+    fd.append("canvasImage", blob);
+    axios.post(POST_IMAGE_URL, fd)
+      .then(resp => console.log("Response from Video Image: ", resp))
+      .catch(err => {
+        console.log("Error with Uploading From Video:", err);
+      })
+  }
 
   return (
     <div>
-    <img src={logo} alt="logo" style={{width:"400px", height:"auto", margin:"20px 100px"}}/>
-    <Upload />
-    <div className={styles.buttonDiv}>
-    <input 
-      style={{display:"none"}}
-      type="file" 
-      onChange={fileSelectorHandle}
-      ref={fileInput}
-    />
-    <button type="button" 
-      className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
-      onClick ={() => {fileInput.current.click()}}
-    >
-      Choose a Photo
+      <img src={logo} alt="logo" style={{ width: "400px", height: "auto", margin: "20px 100px" }} />
+      <Upload videoInput ={videoInput}/>
+      <div className={styles.buttonDiv}>
+        <input
+          style={{ display: "none" }}
+          type="file"
+          onChange={fileSelectorHandle}
+          ref={fileInput}
+        />
+        <button type="button"
+          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
+          onClick={() => { fileInput.current.click() }}
+        >
+          Choose a Photo
     </button>
 
-    <button type="button" 
-      className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
-      onClick= {fileUploadHandler}
-    >
-      Upload
+        <button type="button"
+          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
+          onClick={fileUploadHandler}
+        >
+          Upload
     </button>
-    <button type="button" className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}>Take a Photo</button>
-    </div>
+        <button type="button"
+          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
+          onClick={snapshotUploadHandler}
+        >
+          Take a Photo
+        </button>
+        <canvas style={{display:"none"}} ref={canvasRef} id="canvas" width="640" height="480"/>
+      </div>
     </div>
   );
 }

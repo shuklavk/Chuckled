@@ -2,8 +2,9 @@ import React, {useRef} from 'react';
 import styles from '../styles/Upload.module.css';
 // import {Card }
 
-export default () => {
-  const videoInput = useRef(null);
+export default ({videoInput}) => {
+  // const videoInput = useRef(null);
+  const canvas = document.getElementById('canvas');
   const video = document.getElementById('video');
   const errorMsgElement = document.getElementById('span#ErrorMsg');
   const constraints = {
