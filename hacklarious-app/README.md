@@ -1,5 +1,12 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+
+-----------------
+# Running Dev Version of this app
+1. Open terminal and `cd` into hacklarious-app, then type `npm start`
+2. Open another terminal and `cd` into hacklarious-app, then type `npm start backend`
+
 ## Available Scripts
 
 In the project directory, you can run:
