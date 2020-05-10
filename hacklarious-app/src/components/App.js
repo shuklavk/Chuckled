@@ -9,14 +9,14 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   //Post request Link goes here ---------------------------
-  const POST_IMAGE_URL = "";
+  const POST_IMAGE_URL = "http://45.79.199.42:8002/jokifyanimage";
 
-  useEffect(() => {
-    fetch("/api").then(res => res.json()).then(data => {
-      setCurrentTime(data.hello)
+  // useEffect(() => {
+  //   fetch("/api").then(res => res.json()).then(data => {
+  //     setCurrentTime(data.hello)
 
-    })
-  })
+  //   })
+  // })
 
   const fileSelectorHandle = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -40,9 +40,9 @@ function App() {
     // convert base64/URLEncoded data component to raw binary data held in a string
     var byteString;
     if (dataURI.split(',')[0].indexOf('base64') >= 0)
-        byteString = atob(dataURI.split(',')[1]);
+      byteString = atob(dataURI.split(',')[1]);
     else
-        byteString = unescape(dataURI.split(',')[1]);
+      byteString = unescape(dataURI.split(',')[1]);
 
     // separate out the mime component
     var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0];
@@ -50,12 +50,12 @@ function App() {
     // write the bytes of the string to a typed array
     var ia = new Uint8Array(byteString.length);
     for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+      ia[i] = byteString.charCodeAt(i);
     }
 
-    return new Blob([ia], {type:mimeString});
-}
-  
+    return new Blob([ia], { type: mimeString });
+  }
+
   const snapshotUploadHandler = () => {
     let context = canvasRef.current.getContext('2d');
     // console.log(videoInput)
@@ -74,7 +74,7 @@ function App() {
   return (
     <div>
       <img src={logo} alt="logo" style={{ width: "400px", height: "auto", margin: "20px 100px" }} />
-      <Upload videoInput ={videoInput}/>
+      <Upload videoInput={videoInput} />
       <div className={styles.buttonDiv}>
         <input
           style={{ display: "none" }}
@@ -84,24 +84,24 @@ function App() {
         />
         <button type="button"
           className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
-          onClick={() => { fileInput.current.click() }}
-        >
-          Choose a Photo
-    </button>
-
-        <button type="button"
-          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
-          onClick={fileUploadHandler}
-        >
-          Upload
-    </button>
-        <button type="button"
-          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
           onClick={snapshotUploadHandler}
         >
           Take a Photo
         </button>
-        <canvas style={{display:"none"}} ref={canvasRef} id="canvas" width="640" height="480"/>
+        <button type="button"
+          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
+          onClick={() => { fileInput.current.click() }}
+        >
+          Upload a Photo
+    </button>
+
+        <button type="button"
+          className={`btn btn-lg btn-primary rounded-pill ${styles.chuckleButton} shadow`}
+          onClick={fileUploadHandler}
+        >
+          Chuckle Me!
+    </button>
+        <canvas style={{ display: "none" }} ref={canvasRef} id="canvas" width="640" height="480" />
       </div>
     </div>
   );

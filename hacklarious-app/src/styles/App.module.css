@@ -11,6 +11,19 @@
   font-weight: 300;
 }
 
+.chuckleButton{
+  background-color: #15B1A2 !important;
+  border: none;
+  width: 200px;
+  height: 50px;
+  margin: 0px 20px;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;
+  font-style: normal; 
+  font-variant: normal; 
+  font-size: 17px;
+  font-weight: 300;
+}
+
 .buttonDiv{
   padding: 20px;
   display: flex;
