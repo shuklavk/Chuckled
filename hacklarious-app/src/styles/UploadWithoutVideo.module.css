@@ -1,0 +1,25 @@
+
+.uploadDiv{
+  background-image: url("./UploadBackground.png");
+}
+
+.trial{
+  color:red;
+  text-align: center;
+  width: 50%;
+  height: 400px;
+  display: inline-block;
+  /* margin: 5%, 25%; */
+  margin-top: 5%;
+  margin-bottom: 5%;
+  margin-left: 25%;
+  margin-right: 25%;
+  border-radius: 1.83rem!important;
+
+}
+
+.displayImg{
+  height: 100%;
+  width: 78%;
+
+}
