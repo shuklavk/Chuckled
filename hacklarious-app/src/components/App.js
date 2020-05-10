@@ -6,10 +6,10 @@ import axios from 'axios'
 
 function App() {
   const video = document.getElementById('video');
-  const [currentTime, setCurrentTime] = useState(0);
+  // const [currentTime, setCurrentTime] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
   //Post request Link goes here ---------------------------
-  const POST_IMAGE_URL = "http://45.79.199.42:8002/jokifyanimage";
+  const POST_IMAGE_URL = "http://45.79.199.42:8002/gimmeajoke";
 
   // useEffect(() => {
   //   fetch("/api").then(res => res.json()).then(data => {
@@ -19,13 +19,21 @@ function App() {
   // })
 
   const fileSelectorHandle = (event) => {
+    console.log(event.target.files);
     setSelectedFile(event.target.files[0]);
   }
 
   const fileUploadHandler = () => {
     const fd = new FormData();
-    fd.append('image', selectedFile, selectedFile.name);
-    axios.post(POST_IMAGE_URL, fd)
+    fd.append('file', selectedFile);
+    return axios.post(POST_IMAGE_URL,
+      fd,
+      // {
+      //   headers: {
+      //     'content-type': 'application/x-www-form-urlencoded'
+      //   }
+      // }
+    )
       .then(resp => console.log("Response from Uploaded Image: ", resp))
       .catch(err => {
         console.log("Error with Uploading:", err);
@@ -63,7 +71,7 @@ function App() {
     const dataURI = canvasRef.current.toDataURL('image/jpeg');
     var blob = dataURItoBlob(dataURI);
     var fd = new FormData(document.forms[0]);
-    fd.append("canvasImage", blob);
+    fd.append("file", blob);
     axios.post(POST_IMAGE_URL, fd)
       .then(resp => console.log("Response from Video Image: ", resp))
       .catch(err => {
@@ -76,31 +84,36 @@ function App() {
       <img src={logo} alt="logo" style={{ width: "400px", height: "auto", margin: "20px 100px" }} />
       <Upload videoInput={videoInput} />
       <div className={styles.buttonDiv}>
-        <input
-          style={{ display: "none" }}
-          type="file"
-          onChange={fileSelectorHandle}
-          ref={fileInput}
-        />
         <button type="button"
           className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
           onClick={snapshotUploadHandler}
         >
           Take a Photo
         </button>
-        <button type="button"
-          className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
-          onClick={() => { fileInput.current.click() }}
-        >
-          Upload a Photo
+        {/* <form action="http://45.79.199.42:8002/gimmeajoke" method="POST"
+          encType="multipart/form-data"> */}
+          <input
+            style={{ display: "none" }}
+            name="file"
+            type="file"
+            onChange={fileSelectorHandle}
+            ref={fileInput}
+          />
+
+          <button type="button"
+            className={`btn btn-lg btn-primary rounded-pill ${styles.button} shadow`}
+            onClick={() => { fileInput.current.click() }}
+          >
+            Upload a Photo
     </button>
 
-        <button type="button"
-          className={`btn btn-lg btn-primary rounded-pill ${styles.chuckleButton} shadow`}
+          <button type="button"
+            className={`btn btn-lg btn-primary rounded-pill ${styles.chuckleButton} shadow`}
           onClick={fileUploadHandler}
-        >
-          Chuckle Me!
+          >
+            Chuckle Me!
     </button>
+        {/* </form> */}
         <canvas style={{ display: "none" }} ref={canvasRef} id="canvas" width="640" height="480" />
       </div>
     </div>
